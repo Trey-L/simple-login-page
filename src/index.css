@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Cross-browser normalization */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+  }
+
+  /* Ensure proper viewport height on mobile browsers */
+  :root {
+    --vh: 1vh;
+  }
+
+  html, body {
+    height: 100%;
+    height: calc(var(--vh) * 100);
+    min-height: -webkit-fill-available;
+    min-height: -moz-available;
+    min-height: fill-available;
+    overflow-x: hidden; /* Prevent horizontal bounce on Safari */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  /* Improve form element consistency across browsers */
+  input,
+  button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0; /* Fix border-radius issues on iOS */
+  }
+
+  /* Fix backdrop-filter support */
+  @supports not (backdrop-filter: blur(1px)) {
+    .backdrop-blur-xl {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+  /* Improve text rendering */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input {
+      font-size: 16px; /* Prevent zoom on focus in iOS */
+    }
+  }
+
+  /* Fix gradient animation performance on Safari */
+  @supports (-webkit-touch-callout: none) {
+    .bg-gradient-to-r {
+      background-attachment: scroll;
+      -webkit-background-attachment: scroll;
+    }
+  }
+}
